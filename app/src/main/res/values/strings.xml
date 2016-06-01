@@ -4,4 +4,6 @@
     <string name="date">date</string>
     <string name="maxTemp">maxTemp</string>
     <string name="minTemp">minTemp</string>
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>
