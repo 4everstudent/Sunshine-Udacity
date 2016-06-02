@@ -67,7 +67,7 @@ public class ForecastFragment extends Fragment {
             "Thursday - Mostly Sunny - 20º/15º",
             "Friday - Scattered Showers - 21º/15º"};
 
-        final List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
+        List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
 
         // Create the ArrayAdapter that will take data from a source (like our dummy forecast) and
         // use it to populate the ListView it's attached to.
@@ -78,7 +78,7 @@ public class ForecastFragment extends Fragment {
                         R.id.list_item_forecast_textview, // The ID of the textview to populate.
                         weekForecast);
 
-        View rootView = inflater.inflate(R.layout.fragment_main_activity, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Get a reference to the ListView, and attach this adapter to it.
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
@@ -88,8 +88,8 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                String forecast = mForecastAdapter.getItem(position);
-                Intent detailIntent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, forecast);
-                startActivity(detailIntent);
+                Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, forecast);
+                startActivity(intent);
 
             }
         });
@@ -101,7 +101,7 @@ public class ForecastFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
+        // Handle action bar item clicks here. The action bar will automatically handle clicks on the Home/Up buttton, so long as you specify a parent activity in AndroidManifest.xlm.
         int id = item.getItemId();
         if(id == R.id.action_refresh){
             FetchWeatherTask weatherTask = new FetchWeatherTask();
@@ -209,9 +209,7 @@ public class ForecastFragment extends Fragment {
                     resultStrs[i] = day + " - " + description + " - " + highAndLow;
                 }
 
-                for (String s : resultStrs) {
-                    Log.v(LOG_TAG, "Forecast entry: " + s);
-                }
+
                 return resultStrs;
 
             }
@@ -257,8 +255,6 @@ public class ForecastFragment extends Fragment {
                             .build();
 
                     URL url = new URL(builtUri.toString());
-
-                    Log.v(LOG_TAG, "Built URI" + builtUri.toString());
 
                     //Create the request to OpenWeatherMap, and open the connection
                     urlConnection = (HttpURLConnection) url.openConnection();

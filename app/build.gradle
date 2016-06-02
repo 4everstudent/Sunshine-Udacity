@@ -17,7 +17,7 @@ android {
         }
     }
     buildTypes.each {
-      //  it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', MyOpenWeatherMapApiKey
+        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', '"f51573a2619acee66b4b4e44d2bad19b"'
 
     }
     productFlavors {
@@ -29,5 +29,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:design:23.4.0'
 }
