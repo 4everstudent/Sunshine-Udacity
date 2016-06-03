@@ -25,11 +25,13 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Add 'general' preferences, defined in the XML file
-        // TODO: Add preferences from XML
+        addPreferencesFromResource(R.xml.pref_general); //deprecated but best practice for targeting Gingerbread
+
 
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.
-        // TODO: Add preference
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
+
 
     }
     /**
