@@ -19,7 +19,8 @@
     <string name="date">date</string>
     <string name="maxTemp">maxTemp</string>
     <string name="minTemp">minTemp</string>
-
+    <string name="title_activity_settings">Settings</string>
+    <string name="pref_ringtone_silent">\"ringtone silence\"</string>
 
 
 </resources>
