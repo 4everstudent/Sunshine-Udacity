@@ -31,8 +31,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class ForecastFragment extends Fragment {
@@ -58,27 +56,29 @@ public class ForecastFragment extends Fragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will automatically handle clicks on the Home/Up buttton, so long as you specify a parent activity in AndroidManifest.xlm.
+        int id = item.getItemId();
+        if(id == R.id.action_refresh){
+            updateWeather();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //creates dummy data
-        String[] data = {
-            "Today - Mostly Sunny - 22º/12º",
-            "Tomorrow - Partly Cloudy - 25º/15º",
-            "Tuesday - Scattered Showers - 21º/14º",
-            "Wednesday- Scattered Showers - 20º/13º",
-            "Thursday - Mostly Sunny - 20º/15º",
-            "Friday - Scattered Showers - 21º/15º"};
 
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
 
-        // Create the ArrayAdapter that will take data from a source (like our dummy forecast) and
+        // The ArrayAdapte will take data from a source and
         // use it to populate the ListView it's attached to.
         mForecastAdapter =
                 new ArrayAdapter<String>(
                         getActivity(), // The current context (this activity)
                         R.layout.list_item_forecast, // The name of the layout ID.
                         R.id.list_item_forecast_textview, // The ID of the textview to populate.
-                        weekForecast);
+                        new ArrayList<String>());
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -101,22 +101,22 @@ public class ForecastFragment extends Fragment {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will automatically handle clicks on the Home/Up buttton, so long as you specify a parent activity in AndroidManifest.xlm.
-        int id = item.getItemId();
-        if(id == R.id.action_refresh){
-            FetchWeatherTask weatherTask = new FetchWeatherTask();
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String location = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-            weatherTask.execute(location);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+
+
+    private void updateWeather() {
+        FetchWeatherTask weatherTask = new FetchWeatherTask();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        weatherTask.execute(location);
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        updateWeather();
+    }
 
-        public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
+    public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
             private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
